@@ -21,6 +21,31 @@ const register = (req, res) => {
   if(!data) {
     return res.status(400).json({ message: "Missing Data" })
   } else if (
-    !data.
-  )
+    !data.title ||
+    !data.content ||
+    !data.user_id 
+  ) {
+    return res.status(400).json({
+      message: "All fields must be completed",
+      fields: {
+        title: "string",
+        content: "text",
+        user_id: "uuid" 
+      }
+    })
+  } else {
+    const response = postControllers.createPost(data)
+    return res
+      .status(201)
+      .json({
+        message: `Post created succesfully with id: ${response.id}`,
+        post: response
+      })
+  }
+}
+
+module.exports = {
+  getAll,
+  getById,
+  register
 }
