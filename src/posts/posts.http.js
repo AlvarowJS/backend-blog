@@ -16,6 +16,12 @@ const getById = (req, res) => {
   }
 }
 
+const getUserPost = (req, res) => {
+  const userID = req.user.id
+  const data = postControllers.getAllPosts().filter(post => post.user_id === userID)
+  res.status(200).json(data)
+}
+
 const register = (req, res) => {
   const data = req.body
   if(!data) {
@@ -44,8 +50,20 @@ const register = (req, res) => {
   }
 }
 
+const removeMyPost = (req, res) => {
+  const id = req.user.id
+  const data = postControllers.deletePost(id)
+  if(data){
+    res.status(204).json()
+  } else {
+    res.status(400).json({message: 'invalid id'})
+  }
+}
+
 module.exports = {
   getAll,
   getById,
-  register
+  register,
+  removeMyPost,
+  getUserPost
 }

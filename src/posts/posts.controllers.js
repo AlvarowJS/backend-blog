@@ -5,7 +5,7 @@ const postDB = [{
   "title": "Javascript",
   "content": "lore ipsunnanfjdsngj",
   "header_image": "",
-  "user_id": "7ab09368-463a-40ca-a982-05b5fdf67a5d",
+  "user_id": "74cd6011-7e76-4d6d-b25b-1d6e4182ec2f",
   "published": true
 }]
 
