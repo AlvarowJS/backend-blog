@@ -31,7 +31,7 @@ const createPost = (data) => {
   postDB.push(newPost)
   return newPost
 }
-
+ 
 const editPost = (id, data, postRol) => {
   const index = postDB.findIndex((post) => post.id === id)
   if(index !== -1) {

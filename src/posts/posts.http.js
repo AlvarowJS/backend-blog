@@ -22,6 +22,21 @@ const getUserPost = (req, res) => {
   res.status(200).json(data)
 }
 
+const getByIdPost = (req, res) => {
+  const userID = req.user.id
+  const id = req.params.id 
+  const data = postControllers.getPostById(id)  
+  if(data) {
+    if(data.user_id === userID){
+      res.status(200).json(data)
+    }else{
+      res.status(401).json({ message: 'No puedes ver el post de este usuario' })
+    }
+  } else {
+    res.status(404).json({ message: `El post con el id ${id} no existe` })
+  }
+}
+
 const register = (req, res) => {
   const data = req.body
   if(!data) {
@@ -50,8 +65,39 @@ const register = (req, res) => {
   }
 }
 
+const editPost = (req, res) => {
+  const id = req.params.id
+  const data = req.body
+  if(!Object.keys(data).length) {
+    return res.status(400).json({ message: "Missing Data" })
+  } else if(
+    !data.title,
+    !data.content,
+    !data.header_image,
+    !data.user_id,
+    !data.published
+  ) {
+    return res.status(400).json({
+      message: "All fields must be completed",
+      fields: {
+        title: "string",
+        content: "string",
+        header_image: "string",
+        user_id: "string",
+        published: true
+      }
+    })
+  } else {
+    const response = postControllers.editPost(id, data)
+    return res.status(200).json({
+      message: 'Post edited succesfully',
+      post: response
+    })
+  }
+}
+
 const removeMyPost = (req, res) => {
-  const id = req.user.id
+  const id = req.params.id
   const data = postControllers.deletePost(id)
   if(data){
     res.status(204).json()
@@ -65,5 +111,7 @@ module.exports = {
   getById,
   register,
   removeMyPost,
-  getUserPost
+  getUserPost,
+  getByIdPost,
+  editPost
 }
